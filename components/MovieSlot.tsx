@@ -87,12 +87,13 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
             onClick={onRemove}
             style={{
               position: "absolute", top: 6, right: 6,
-              width: 26, height: 26, borderRadius: "50%",
-              background: "rgba(0,0,0,0.75)", color: "white",
-              border: "none", cursor: "pointer", fontSize: 12,
+              width: 32, height: 32, borderRadius: "50%",
+              background: "rgba(0,0,0,0.85)", color: "white",
+              border: "1px solid rgba(255,255,255,0.2)",
+              cursor: "pointer", fontSize: 14, fontWeight: "bold",
               display: "flex", alignItems: "center", justifyContent: "center",
-              opacity: hovered ? 1 : 0,
-              transition: "opacity 0.25s ease",
+              opacity: 1,
+              zIndex: 10,
             }}
           >✕</button>
         </div>
