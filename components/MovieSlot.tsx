@@ -19,13 +19,12 @@ const PLACEHOLDERS = [
   "e.g. Parasite...",
 ];
 
-const debounceRef2 = { current: undefined as ReturnType<typeof setTimeout> | undefined };
-
 export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
@@ -51,41 +50,69 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
 
   if (movie) {
     return (
-      <div style={{ position: "relative", width: 180 }}>
-        <div style={{ position: "relative", overflow: "hidden", borderRadius: 10, border: "1px solid rgba(255,255,255,0.1)", background: "#18181b" }}>
+      <div
+        style={{ position: "relative", width: "clamp(130px, 18vw, 180px)" }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <div style={{ position: "relative", overflow: "hidden", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)", background: "#18181b" }}>
           {movie.poster_path ? (
             <img
               src={getPosterUrl(movie.poster_path)}
               alt={movie.title}
-              style={{ width: "100%", height: 270, objectFit: "cover", display: "block" }}
+              style={{ width: "100%", aspectRatio: "2/3", objectFit: "cover", display: "block", transition: "transform 0.3s ease", transform: hovered ? "scale(1.05)" : "scale(1)" }}
             />
           ) : (
-            <div style={{ width: "100%", height: 270, display: "flex", alignItems: "center", justifyContent: "center", background: "#27272a", color: "#71717a", fontSize: 13, textAlign: "center", padding: 8 }}>
+            <div style={{ width: "100%", aspectRatio: "2/3", display: "flex", alignItems: "center", justifyContent: "center", background: "#27272a", color: "#71717a", fontSize: 13, textAlign: "center", padding: 8 }}>
               {movie.title}
             </div>
           )}
+
+          {/* Hover overlay */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.25s ease",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            padding: "12px 10px",
+          }}>
+            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "white", fontFamily: "system-ui", lineHeight: 1.3 }}>{movie.title}</p>
+            <p style={{ margin: "3px 0 0", fontSize: 11, color: "#f59e0b", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
+          </div>
+
           <button
             onClick={onRemove}
             style={{
               position: "absolute", top: 6, right: 6,
-              width: 28, height: 28, borderRadius: "50%",
+              width: 26, height: 26, borderRadius: "50%",
               background: "rgba(0,0,0,0.75)", color: "white",
-              border: "none", cursor: "pointer", fontSize: 13,
+              border: "none", cursor: "pointer", fontSize: 12,
               display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: hovered ? 1 : 0,
+              transition: "opacity 0.25s ease",
             }}
           >✕</button>
         </div>
-        <p style={{ marginTop: 8, fontSize: 16, color: "#a1a1aa", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui", fontWeight: 500 }}>{movie.title}</p>
-        <p style={{ margin: "2px 0 0", fontSize: 14, color: "#52525b", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
+        <p style={{ marginTop: 8, fontSize: 13, color: "#71717a", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui" }}>{movie.title}</p>
+        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#3f3f46", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
       </div>
     );
   }
 
   return (
-    <div style={{ position: "relative", width: 180 }}>
-      <div style={{ width: 180, height: 270, borderRadius: 10, border: "1px dashed #3f3f46", background: "rgba(24,24,27,0.5)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
-        <span style={{ color: "#52525b", fontSize: 28 }}>+</span>
-        <span style={{ color: "#52525b", fontSize: 13, fontFamily: "system-ui" }}>Film {index + 1}</span>
+    <div style={{ position: "relative", width: "clamp(130px, 18vw, 180px)" }}>
+      <div style={{
+        width: "100%", aspectRatio: "2/3",
+        borderRadius: 10, border: "1px dashed #2a2a2a",
+        background: "rgba(24,24,27,0.3)",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", gap: 8,
+      }}>
+        <span style={{ color: "#3f3f46", fontSize: 24 }}>+</span>
+        <span style={{ color: "#3f3f46", fontSize: 12, fontFamily: "system-ui" }}>Film {index + 1}</span>
       </div>
       <input
         type="text"
@@ -94,19 +121,19 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
           marginTop: 10, width: "100%", background: "#18181b",
-          border: "1px solid #3f3f46", borderRadius: 8,
-          padding: "16px 18px", fontSize: 17, color: "white",
+          border: "1px solid #2a2a2a", borderRadius: 8,
+          padding: "12px 14px", fontSize: 14, color: "white",
           fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
-          lineHeight: 1.6,
+          lineHeight: 1.5,
         }}
       />
       {open && results.length > 0 && (
         <ul style={{
           position: "absolute", top: "100%", marginTop: 4, left: 0,
           width: 260, zIndex: 50, background: "#18181b",
-          border: "1px solid #3f3f46", borderRadius: 10,
+          border: "1px solid #2a2a2a", borderRadius: 10,
           overflow: "hidden", listStyle: "none", padding: 0, margin: 0,
-          boxShadow: "0 10px 40px rgba(0,0,0,0.6)",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
         }}>
           {results.map((r) => (
             <li
@@ -120,8 +147,8 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
                 <img src={getPosterUrl(r.poster_path)} alt="" style={{ width: 32, height: 48, objectFit: "cover", borderRadius: 4 }} />
               )}
               <div>
-              <p style={{ margin: 0, fontSize: 16, color: "white", fontWeight: 500, fontFamily: "system-ui" }}>{r.title}</p>
-              <p style={{ margin: 0, fontSize: 14, color: "#71717a", fontFamily: "system-ui" }}>{r.release_date?.split("-")[0]}</p>
+                <p style={{ margin: 0, fontSize: 14, color: "white", fontWeight: 500, fontFamily: "system-ui" }}>{r.title}</p>
+                <p style={{ margin: 0, fontSize: 12, color: "#71717a", fontFamily: "system-ui" }}>{r.release_date?.split("-")[0]}</p>
               </div>
             </li>
           ))}

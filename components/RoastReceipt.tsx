@@ -56,13 +56,14 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
 
   if (!text && !streaming) return null;
 
-  // Split signoff from body
   const lines = text.split("\n");
   const signoffIndex = lines.findIndex(l =>
     l.includes("Prof. E. Marsh") ||
     l.includes("J-P. Renaud") ||
     l.includes("1.5 star") ||
-    l.includes("stelle")
+    l.includes("stelle") ||
+    l.includes("Moving on") ||
+    l.includes("Si va avanti")
   );
   const bodyText = signoffIndex > 0 ? lines.slice(0, signoffIndex).join("\n").trim() : text;
   const signoffText = signoffIndex > 0 ? lines.slice(signoffIndex).join("\n").trim() : "";
@@ -82,54 +83,48 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
         }
-        @keyframes dimPage {
-          from { opacity: 1; }
-          to { opacity: 0.4; }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
         }
-        @keyframes spotlight {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        .critic-reveal { animation: fadeInDown 0.6s ease-out forwards; }
+        .receipt-appear { animation: fadeInUp 0.8s ease-out forwards; }
+        .receipt-card {
+          background: rgba(14,14,14,0.85);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 20px;
+          padding: 48px 56px;
         }
-        .critic-reveal {
-          animation: fadeInDown 0.6s ease-out forwards;
-        }
-        .receipt-appear {
-          animation: fadeInUp 0.8s ease-out forwards;
+        @media (max-width: 768px) {
+          .receipt-card {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+          }
+          .receipt-header { display: none !important; }
+          .receipt-sprockets { display: none !important; }
         }
       `}</style>
 
-      {/* Critic title card reveal */}
+      {/* Critic title card */}
       {showCritic && criticName && !showReceipt && (
         <div style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(0,0,0,0.85)",
+          position: "fixed", inset: 0,
+          background: "rgba(0,0,0,0.9)",
           zIndex: 1000,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          backdropFilter: "blur(4px)",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          backdropFilter: "blur(6px)",
         }}>
-          <div className="critic-reveal" style={{ textAlign: "center" }}>
-            <p style={{
-              fontSize: 13,
-              letterSpacing: "0.4em",
-              color: "#b45309",
-              textTransform: "uppercase",
-              fontFamily: "system-ui",
-              marginBottom: 20,
-            }}>
+          <div className="critic-reveal" style={{ textAlign: "center", padding: "0 32px" }}>
+            <p style={{ fontSize: 12, letterSpacing: "0.4em", color: "#b45309", textTransform: "uppercase", fontFamily: "system-ui", marginBottom: 20 }}>
               {lang === "it" ? "Il tuo giudice di stasera è..." : "Tonight your judge is..."}
             </p>
-            <p style={{
-              fontSize: 48,
-              fontWeight: "bold",
-              color: "white",
-              fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif",
-              margin: 0,
-              lineHeight: 1.2,
-            }}>
+            <p style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: "bold", color: "white", fontFamily: "'Playfair Display', Georgia, serif", margin: 0, lineHeight: 1.2 }}>
               {criticName}
             </p>
             <div style={{ width: 64, height: 1, background: "#b45309", margin: "24px auto" }} />
@@ -140,23 +135,19 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
         </div>
       )}
 
-      {/* Receipt */}
       {showReceipt && (
         <div className="receipt-appear">
-          <div ref={receiptRef} style={{
-            background: "#0e0e0e",
-            border: "1px solid #1c1c1c",
-            borderRadius: 20,
-            padding: "48px 56px",
-          }}>
+          <div ref={receiptRef} className="receipt-card">
+
             {/* Sprocket holes top */}
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 28, opacity: 0.12 }}>
+            <div className="receipt-sprockets" style={{ display: "flex", justifyContent: "space-between", marginBottom: 28, opacity: 0.1 }}>
               {Array.from({ length: 14 }).map((_, i) => (
                 <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: "#888" }} />
               ))}
             </div>
 
-            <div style={{ textAlign: "center", marginBottom: 32, paddingBottom: 20, borderBottom: "1px dashed #2a2a2a" }}>
+            {/* Header */}
+            <div className="receipt-header" style={{ textAlign: "center", marginBottom: 32, paddingBottom: 20, borderBottom: "1px dashed #2a2a2a" }}>
               <p style={{ fontSize: 12, letterSpacing: "0.3em", color: "#71717a", fontFamily: "system-ui", textTransform: "uppercase", margin: 0 }}>
                 {lang === "it" ? "La Camera Oscura del Critico" : "The Critic's Darkroom"}
               </p>
@@ -165,13 +156,13 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
               </p>
             </div>
 
-            {/* Body text */}
+            {/* Body */}
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {bodyText.split(/\n+/).filter(p => p.trim()).map((paragraph, i, arr) => (
                 <p key={i} style={{
                   fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif",
-                  fontSize: 20,
-                  lineHeight: 2.2,
+                  fontSize: "clamp(16px, 2vw, 20px)",
+                  lineHeight: 2.0,
                   color: "#e4e4e7",
                   margin: 0,
                 }}>
@@ -183,17 +174,12 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
               ))}
             </div>
 
-            {/* Signoff — styled differently */}
+            {/* Signoff */}
             {signoffText && (
-              <div style={{
-                marginTop: 40,
-                paddingTop: 24,
-                borderTop: "1px solid #1c1c1c",
-                textAlign: "right",
-              }}>
+              <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid #1c1c1c", textAlign: "right" }}>
                 <p style={{
-                  fontFamily: "''Playfair Display', 'Palatino Linotype', Georgia, serif",
-                  fontSize: 16,
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: "clamp(14px, 1.5vw, 16px)",
                   fontStyle: "italic",
                   color: "#71717a",
                   whiteSpace: "pre-wrap",
@@ -209,7 +195,7 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
             )}
 
             {/* Sprocket holes bottom */}
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 28, opacity: 0.12 }}>
+            <div className="receipt-sprockets" style={{ display: "flex", justifyContent: "space-between", marginTop: 28, opacity: 0.1 }}>
               {Array.from({ length: 14 }).map((_, i) => (
                 <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: "#888" }} />
               ))}
@@ -220,21 +206,15 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
 
           {/* Share buttons */}
           {!streaming && text && (
-            <div style={{ display: "flex", gap: 12, marginTop: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 12, marginTop: 20, justifyContent: "center", flexWrap: "wrap" }}>
               <button
                 onClick={handleCopy}
                 style={{
-                  padding: "12px 28px",
-                  borderRadius: 8,
-                  border: "1px solid #27272a",
-                  background: "transparent",
+                  padding: "12px 28px", borderRadius: 8,
+                  border: "1px solid #27272a", background: "transparent",
                   color: copied ? "#22c55e" : "#a1a1aa",
-                  fontFamily: "system-ui",
-                  fontSize: 14,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
+                  fontFamily: "system-ui", fontSize: 14, cursor: "pointer",
+                  display: "flex", alignItems: "center", gap: 8,
                   transition: "all 0.2s",
                 }}
               >
@@ -245,17 +225,10 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
               <button
                 onClick={handleScreenshot}
                 style={{
-                  padding: "12px 28px",
-                  borderRadius: 8,
-                  border: "1px solid #27272a",
-                  background: "transparent",
-                  color: "#a1a1aa",
-                  fontFamily: "system-ui",
-                  fontSize: 14,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
+                  padding: "12px 28px", borderRadius: 8,
+                  border: "1px solid #27272a", background: "transparent",
+                  color: "#a1a1aa", fontFamily: "system-ui", fontSize: 14,
+                  cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
                 }}
               >
                 ↓ {lang === "it" ? "Salva immagine" : "Save as image"}
