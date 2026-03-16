@@ -122,10 +122,10 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
           marginTop: 10, width: "100%", background: "#18181b",
-          border: "1px solid #2a2a2a", borderRadius: 8,
-          padding: "12px 14px", fontSize: 14, color: "white",
+          border: "1px solid #3f3f46", borderRadius: 8,
+          padding: "16px 18px", fontSize: 16, color: "white",
           fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
-          lineHeight: 1.5,
+          lineHeight: 1.6,
         }}
       />
       {open && results.length > 0 && (
