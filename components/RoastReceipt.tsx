@@ -62,8 +62,12 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
     l.includes("J-P. Renaud") ||
     l.includes("1.5 star") ||
     l.includes("stelle") ||
-    l.includes("Moving on") ||
-    l.includes("Si va avanti")
+    l.includes("With diminishing hope") ||
+    l.includes("Con speranza") ||
+    l.includes("Logged.") ||
+    l.includes("Registrato.") ||
+    l.includes("Yours in mourning") ||
+    l.includes("Nel lutto")
   );
   const bodyText = signoffIndex > 0 ? lines.slice(0, signoffIndex).join("\n").trim() : text;
   const signoffText = signoffIndex > 0 ? lines.slice(signoffIndex).join("\n").trim() : "";

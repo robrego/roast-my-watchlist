@@ -33,7 +33,7 @@ export default function Home() {
     title: ["La Camera Oscura", "del Critico"],
     subtitle: "Invia la tua watchlist. Ricevi il verdetto.\nNessun sentimento verrà risparmiato.",
     watchlist: "La Tua Watchlist",
-    submit: "Invia al Critico",
+    submit: "Sottometti al Critico",
     writing: "Il critico sta scrivendo...",
     hint: "Aggiungi almeno 2 film per continuare",
     restart: "Ricomincia",
