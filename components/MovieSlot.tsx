@@ -131,10 +131,10 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
       {open && results.length > 0 && (
         <ul style={{
           position: "absolute", top: "100%", marginTop: 4, left: 0,
-          width: 260, zIndex: 50, background: "#18181b",
-          border: "1px solid #2a2a2a", borderRadius: 10,
+          width: "min(260px, 90vw)", zIndex: 1000, background: "#18181b",
+          border: "1px solid #3f3f46", borderRadius: 10,
           overflow: "hidden", listStyle: "none", padding: 0, margin: 0,
-          boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.6)",
         }}>
           {results.map((r) => (
             <li
