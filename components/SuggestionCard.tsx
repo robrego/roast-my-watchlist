@@ -53,59 +53,85 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
       : `https://www.google.com/search?q=${encodeURIComponent(s.title + " " + s.year + " film")}`;
 
   return (
-    <div style={{
-      marginTop: 24,
-      background: "#0e0e0e",
-      border: "1px solid #1c1c1c",
-      borderRadius: 20,
-      padding: "40px 48px",
-    }}>
-      <p style={{
-        fontSize: 13,
-        letterSpacing: "0.25em",
-        color: "#b45309",
-        textTransform: "uppercase",
-        fontFamily: "system-ui",
-        marginBottom: 32,
-        marginTop: 0,
-      }}>
-        {lang === "it" ? "Il Critico Raccomanda a Malincuore" : "The Critic Reluctantly Recommends"}
-      </p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-        {suggestions.map((s, i) => (
-          <div key={i} style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
-            <a href={linkFor(s)} target="_blank" rel="noopener noreferrer" style={{ flexShrink: 0 }}>
-              {s.poster ? (
-                <img
-                  src={getPosterUrl(s.poster)}
-                  alt={s.title}
-                  style={{ width: 90, height: 135, objectFit: "cover", borderRadius: 8, border: "1px solid #27272a", display: "block" }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-                />
-              ) : (
-                <div style={{ width: 90, height: 135, background: "#18181b", borderRadius: 8, border: "1px solid #27272a", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: 24 }}>🎬</span>
-                </div>
-              )}
-            </a>
-            <div style={{ paddingTop: 4 }}>
-              <a href={linkFor(s)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-                <p
-                  style={{ margin: 0, fontSize: 20, fontWeight: 600, color: "white", fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif", lineHeight: 1.3, cursor: "pointer" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = "#f59e0b")}
-                  onMouseLeave={e => (e.currentTarget.style.color = "white")}
-                >
-                  {s.title} <span style={{ color: "#52525b", fontWeight: 400, fontSize: 16 }}>({s.year})</span>
-                </p>
+    <>
+      <style>{`
+        .suggestion-wrapper {
+          margin-top: 24px;
+          background: #0e0e0e;
+          border: 1px solid #1c1c1c;
+          border-radius: 20px;
+          padding: 40px 48px;
+        }
+        .suggestion-item {
+          display: flex;
+          gap: 24px;
+          align-items: flex-start;
+        }
+        .suggestion-reason {
+          font-family: 'Playfair Display', 'Palatino Linotype', Georgia, serif;
+          font-size: 17px;
+          color: #a1a1aa;
+          line-height: 1.9;
+          margin: 10px 0 0;
+        }
+        @media (max-width: 768px) {
+          .suggestion-wrapper {
+            background: transparent;
+            border: none;
+            padding: 24px 0;
+            border-top: 1px solid #1c1c1c;
+          }
+          .suggestion-item {
+            gap: 16px;
+          }
+          .suggestion-reason {
+            font-size: 14px;
+            line-height: 1.7;
+          }
+        }
+      `}</style>
+      <div className="suggestion-wrapper">
+        <p style={{
+          fontSize: 13, letterSpacing: "0.25em", color: "#b45309",
+          textTransform: "uppercase", fontFamily: "system-ui",
+          marginBottom: 32, marginTop: 0,
+        }}>
+          {lang === "it" ? "Il Critico Raccomanda a Malincuore" : "The Critic Reluctantly Recommends"}
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+          {suggestions.map((s, i) => (
+            <div key={i} className="suggestion-item">
+              <a href={linkFor(s)} target="_blank" rel="noopener noreferrer" style={{ flexShrink: 0 }}>
+                {s.poster ? (
+                  <img
+                    src={getPosterUrl(s.poster)}
+                    alt={s.title}
+                    style={{ width: 80, height: 120, objectFit: "cover", borderRadius: 8, border: "1px solid #27272a", display: "block" }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                  />
+                ) : (
+                  <div style={{ width: 80, height: 120, background: "#18181b", borderRadius: 8, border: "1px solid #27272a", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: 24 }}>🎬</span>
+                  </div>
+                )}
               </a>
-              <p style={{ margin: "10px 0 0", fontSize: 17, color: "#a1a1aa", lineHeight: 1.9, fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif" }}>
-                {s.reason}
-              </p>
+              <div style={{ paddingTop: 4, minWidth: 0, flex: 1 }}>
+                <a href={linkFor(s)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                  <p
+                    style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "white", fontFamily: "'Playfair Display', Georgia, serif", lineHeight: 1.3, cursor: "pointer" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "#f59e0b")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "white")}
+                  >
+                    {s.title} <span style={{ color: "#52525b", fontWeight: 400, fontSize: 14 }}>({s.year})</span>
+                  </p>
+                </a>
+                <p className="suggestion-reason">{s.reason}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -57,18 +57,19 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName 
   if (!text && !streaming) return null;
 
   const lines = text.split("\n");
-  const signoffIndex = lines.findIndex(l =>
-    l.includes("Prof. E. Marsh") ||
-    l.includes("J-P. Renaud") ||
-    l.includes("1.5 star") ||
-    l.includes("stelle") ||
-    l.includes("With diminishing hope") ||
-    l.includes("Con speranza") ||
-    l.includes("Logged.") ||
-    l.includes("Registrato.") ||
-    l.includes("Yours in mourning") ||
-    l.includes("Nel lutto")
-  );
+  const signoffIndex = lines.findIndex(l => {
+    const trimmed = l.trim();
+    return (
+      trimmed.startsWith("With diminishing hope") ||
+      trimmed.startsWith("Con speranza") ||
+      trimmed.startsWith("Logged.") ||
+      trimmed.startsWith("Registrato.") ||
+      trimmed.startsWith("Yours in mourning") ||
+      trimmed.startsWith("Nel lutto") ||
+      trimmed.startsWith("Prof. E. Marsh") ||
+      trimmed.startsWith("J-P. Renaud")
+    );
+  });
   const bodyText = signoffIndex > 0 ? lines.slice(0, signoffIndex).join("\n").trim() : text;
   const signoffText = signoffIndex > 0 ? lines.slice(signoffIndex).join("\n").trim() : "";
 
