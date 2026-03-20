@@ -134,10 +134,11 @@ export default function Home() {
           align-items: flex-start;
         }
         @media (max-width: 768px) {
-          .movie-grid {
+        .movie-grid {
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
             gap: 12px !important;
+            align-items: start !important;
           }
           .suggestion-card {
             background: transparent !important;

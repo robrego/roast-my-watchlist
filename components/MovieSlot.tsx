@@ -51,7 +51,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   if (movie) {
     return (
       <div
-        style={{ position: "relative", width: "clamp(130px, 18vw, 180px)" }}
+      style={{ position: "relative", width: "clamp(130px, 18vw, 180px)", maxWidth: "100%" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -104,7 +104,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   }
 
   return (
-    <div style={{ position: "relative", width: "clamp(130px, 18vw, 180px)" }}>
+    <div style={{ position: "relative", width: "clamp(130px, 18vw, 180px)", maxWidth: "100%" }}>
       <div style={{
         width: "100%", aspectRatio: "2/3",
         borderRadius: 10, border: "1px dashed #2a2a2a",
