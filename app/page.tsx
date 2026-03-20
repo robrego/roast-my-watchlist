@@ -179,14 +179,14 @@ export default function Home() {
             {t.service}
           </p>
           <h1 style={{ margin: 0, lineHeight: 1.05 }}>
-            <span style={{ display: "block", fontSize: "clamp(44px, 7vw, 96px)", fontWeight: "bold", color: "white" }}>
+            <span style={{ display: "block", fontSize: "clamp(40px, 7vw, 96px)", fontWeight: "bold", color: "white" }}>
               {t.title[0]}
             </span>
-            <span style={{ display: "block", fontSize: "clamp(36px, 5.5vw, 68px)", fontWeight: "bold", background: "linear-gradient(135deg, #f59e0b 0%, #dc2626 50%, #f59e0b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+            <span style={{ display: "block", fontSize: "clamp(40px, 7vw, 96px)", fontWeight: "bold", background: "linear-gradient(135deg, #f59e0b 0%, #dc2626 50%, #f59e0b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               {t.title[1]}
             </span>
           </h1>
-          <p style={{ color: "#71717a", fontFamily: "system-ui", fontSize: "clamp(15px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
+          <p style={{ color: "#71717a", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
             {t.subtitle.split("\n").map((line, i) => (
               <span key={i}>{line}{i === 0 && <br />}</span>
             ))}
