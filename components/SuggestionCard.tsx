@@ -25,8 +25,13 @@ function parseSuggestions(text: string): Suggestion[] {
   }).filter(Boolean) as Suggestion[];
 }
 
+function getJustWatchUrl(title: string, year: string) {
+  return `https://www.justwatch.com/search?q=${encodeURIComponent(title)}`;
+}
+
 export default function SuggestionCard({ text, lang = "en" }: Props) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [bmcHovered, setBmcHovered] = useState(false);
 
   useEffect(() => {
     if (!text) return;
@@ -74,6 +79,72 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
           line-height: 1.9;
           margin: 10px 0 0;
         }
+        .watch-links {
+          display: flex;
+          gap: 8px;
+          margin-top: 12px;
+          flex-wrap: wrap;
+        }
+        .watch-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 5px 13px;
+          border-radius: 20px;
+          border: 1px solid #2a2a2a;
+          background: rgba(24,24,27,0.8);
+          color: #a1a1aa;
+          font-size: 12px;
+          font-family: system-ui;
+          font-weight: 500;
+          text-decoration: none;
+          letter-spacing: 0.04em;
+          transition: border-color 0.2s ease, color 0.2s ease;
+          cursor: pointer;
+        }
+        .watch-btn:hover {
+          border-color: #b45309;
+          color: #f59e0b;
+        }
+        .watch-btn-primary {
+          border-color: #2a1800;
+          color: #f59e0b;
+          background: rgba(180,83,9,0.08);
+        }
+        .watch-btn-primary:hover {
+          border-color: #f59e0b;
+          background: rgba(180,83,9,0.15);
+        }
+        .bmc-block {
+          margin-top: 48px;
+          padding-top: 40px;
+          border-top: 1px solid #1c1c1c;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+        }
+        .bmc-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 32px;
+          border-radius: 10px;
+          background: #FFDD00;
+          color: #000;
+          font-family: system-ui;
+          font-weight: 700;
+          font-size: 15px;
+          letter-spacing: 0.04em;
+          text-decoration: none;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          box-shadow: 0 4px 20px rgba(255,221,0,0.2);
+        }
+        .bmc-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(255,221,0,0.35);
+        }
         @media (max-width: 768px) {
           .suggestion-wrapper {
             background: transparent;
@@ -90,7 +161,10 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
           }
         }
       `}</style>
+
       <div className="suggestion-wrapper">
+
+        {/* Section label */}
         <p style={{
           fontSize: 13, letterSpacing: "0.25em", color: "#b45309",
           textTransform: "uppercase", fontFamily: "system-ui",
@@ -98,15 +172,19 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
         }}>
           {lang === "it" ? "Il Critico Raccomanda a Malincuore" : "The Critic Reluctantly Recommends"}
         </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+
+        {/* Suggestion list */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
           {suggestions.map((s, i) => (
             <div key={i} className="suggestion-item">
+
+              {/* Poster */}
               <a href={linkFor(s)} target="_blank" rel="noopener noreferrer" style={{ flexShrink: 0 }}>
                 {s.poster ? (
                   <img
                     src={getPosterUrl(s.poster)}
                     alt={s.title}
-                    style={{ width: 80, height: 120, objectFit: "cover", borderRadius: 8, border: "1px solid #27272a", display: "block" }}
+                    style={{ width: 80, height: 120, objectFit: "cover", borderRadius: 8, border: "1px solid #27272a", display: "block", transition: "opacity 0.2s" }}
                     onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
                     onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
                   />
@@ -116,10 +194,12 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
                   </div>
                 )}
               </a>
+
+              {/* Info */}
               <div style={{ paddingTop: 4, minWidth: 0, flex: 1 }}>
                 <a href={linkFor(s)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
                   <p
-                    style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "white", fontFamily: "'Playfair Display', Georgia, serif", lineHeight: 1.3, cursor: "pointer" }}
+                    style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "white", fontFamily: "'Playfair Display', Georgia, serif", lineHeight: 1.3, cursor: "pointer", transition: "color 0.2s" }}
                     onMouseEnter={e => (e.currentTarget.style.color = "#f59e0b")}
                     onMouseLeave={e => (e.currentTarget.style.color = "white")}
                   >
@@ -127,10 +207,68 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
                   </p>
                 </a>
                 <p className="suggestion-reason">{s.reason}</p>
+
+                {/* Where to Watch links */}
+                <div className="watch-links">
+                  <a
+                    href={getJustWatchUrl(s.title, s.year)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="watch-btn watch-btn-primary"
+                  >
+                    🎬 {lang === "it" ? "Dove guardarlo" : "Where to Watch"}
+                  </a>
+                  <a
+                    href={getJustWatchUrl(s.title, s.year)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="watch-btn"
+                  >
+                    JustWatch →
+                  </a>
+                </div>
               </div>
+
             </div>
           ))}
         </div>
+
+        {/* Buy Me a Coffee */}
+        <div className="bmc-block">
+          <p style={{
+            margin: 0,
+            fontSize: 13,
+            color: "#52525b",
+            fontFamily: "system-ui",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+          }}>
+            {lang === "it"
+              ? "Il critico lavora gratis. Per ora."
+              : "The critic works for free. For now."}
+          </p>
+          <a
+            href="https://buymeacoffee.com/robre"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bmc-btn"
+          >
+            ☕ {lang === "it" ? "Offri un caffè al critico" : "Buy the critic a coffee"}
+          </a>
+          <p style={{
+            margin: 0,
+            fontSize: 12,
+            color: "#3f3f46",
+            fontFamily: "system-ui",
+            maxWidth: 320,
+            lineHeight: 1.7,
+          }}>
+            {lang === "it"
+              ? "Se il verdetto ti ha fatto ridere (o piangere), sai cosa fare."
+              : "If the verdict made you laugh, question your taste, or both — you know what to do."}
+          </p>
+        </div>
+
       </div>
     </>
   );
