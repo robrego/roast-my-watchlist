@@ -18,6 +18,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "The Critic's Darkroom",
   description: "Submit your watchlist. Receive your verdict.",
+  icons: { icon: '/favicon.svg' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
