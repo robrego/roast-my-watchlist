@@ -25,9 +25,6 @@ function parseSuggestions(text: string): Suggestion[] {
   }).filter(Boolean) as Suggestion[];
 }
 
-function getJustWatchUrl(title: string, year: string) {
-  return `https://www.justwatch.com/search?q=${encodeURIComponent(title)}`;
-}
 
 export default function SuggestionCard({ text, lang = "en" }: Props) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -79,42 +76,7 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
           line-height: 1.9;
           margin: 10px 0 0;
         }
-        .watch-links {
-          display: flex;
-          gap: 8px;
-          margin-top: 12px;
-          flex-wrap: wrap;
-        }
-        .watch-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          padding: 5px 13px;
-          border-radius: 20px;
-          border: 1px solid #2a2a2a;
-          background: rgba(24,24,27,0.8);
-          color: #a1a1aa;
-          font-size: 12px;
-          font-family: system-ui;
-          font-weight: 500;
-          text-decoration: none;
-          letter-spacing: 0.04em;
-          transition: border-color 0.2s ease, color 0.2s ease;
-          cursor: pointer;
-        }
-        .watch-btn:hover {
-          border-color: #b45309;
-          color: #f59e0b;
-        }
-        .watch-btn-primary {
-          border-color: #2a1800;
-          color: #f59e0b;
-          background: rgba(180,83,9,0.08);
-        }
-        .watch-btn-primary:hover {
-          border-color: #f59e0b;
-          background: rgba(180,83,9,0.15);
-        }
+        
         .bmc-block {
           margin-top: 48px;
           padding-top: 40px;
@@ -208,25 +170,7 @@ export default function SuggestionCard({ text, lang = "en" }: Props) {
                 </a>
                 <p className="suggestion-reason">{s.reason}</p>
 
-                {/* Where to Watch links */}
-                <div className="watch-links">
-                  <a
-                    href={getJustWatchUrl(s.title, s.year)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="watch-btn watch-btn-primary"
-                  >
-                    🎬 {lang === "it" ? "Dove guardarlo" : "Where to Watch"}
-                  </a>
-                  <a
-                    href={getJustWatchUrl(s.title, s.year)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="watch-btn"
-                  >
-                    JustWatch →
-                  </a>
-                </div>
+                
               </div>
 
             </div>
