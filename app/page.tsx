@@ -147,6 +147,16 @@ export default function Home() {
             border-radius: 0 !important;
           }
         }
+          .movie-slot {
+          position: relative;
+          width: clamp(130px, 18vw, 180px);
+          max-width: 100%;
+        }
+        @media (max-width: 768px) {
+         .movie-slot {
+        width: 100% !important;
+      }
+     }
       `}</style>
 
       {/* Language toggle */}
@@ -180,10 +190,10 @@ export default function Home() {
             {t.service}
           </p>
           <h1 style={{ margin: 0, lineHeight: 1.05 }}>
-            <span style={{ display: "block", fontSize: "clamp(40px, 7vw, 96px)", fontWeight: "bold", color: "white" }}>
+            <span style={{ display: "block", fontSize: "clamp(44px, 7vw, 96px)", fontWeight: "bold", color: "white" }}>
               {t.title[0]}
             </span>
-            <span style={{ display: "block", fontSize: "clamp(40px, 7vw, 96px)", fontWeight: "bold", background: "linear-gradient(135deg, #f59e0b 0%, #dc2626 50%, #f59e0b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+            <span style={{ display: "block", fontSize: "clamp(44px, 7vw, 96px)", fontWeight: "bold", background: "linear-gradient(135deg, #f59e0b 0%, #dc2626 50%, #f59e0b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               {t.title[1]}
             </span>
           </h1>
