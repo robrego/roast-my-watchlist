@@ -66,12 +66,10 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
               src={getPosterUrl(movie.poster_path)}
               alt={movie.title}
               style={{ width: "100%", aspectRatio: "2/3", objectFit: "cover", display: "block", transition: "transform 0.3s ease", transform: hovered ? "scale(1.05)" : "scale(1)" }}
-            />  ) : 
-            (
+            />
+          ) : (
             <div style={{ width: "100%", aspectRatio: "2/3", display: "flex", alignItems: "center", justifyContent: "center", background: "#27272a", color: "#a1a1aa", fontSize: 13, textAlign: "center", padding: 8 }}>
               {movie.title}
-              
-              <p style={{ marginTop: 8, fontSize: 13, color: "#d4d4d8", textAlign: "center", fontFamily: "system-ui" }}>{movie.title}</p>
             </div>
           )}
 
@@ -110,18 +108,6 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
 
   return (
     <div className="movie-slot" style={{ position: "relative" }}>
-      {/* UNIFIED CONTAINER: This connects the tile and the search bar */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: 12,
-        overflow: "hidden",
-        border: `1px solid ${isHighlighted ? "#f59e0b" : "#27272a"}`,
-        background: isHighlighted ? "rgba(245,158,11,0.03)" : "rgba(24,24,27,0.3)",
-        transition: "all 0.2s ease",
-        // Visual "glow" for the highlighted first element
-        boxShadow: isHighlighted ? "0 0 20px rgba(245,158,11,0.1)" : "none",
-      }}></div>
 
       {/* Tappable tile — clicking focuses the input */}
       <div
@@ -135,7 +121,6 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
           alignItems: "center", justifyContent: "center", gap: 8,
           cursor: "text",
           transition: "border-color 0.2s ease, background 0.2s ease",
-          borderBottom: `1px solid ${isHighlighted ? "rgba(245,158,11,0.2)" : "#27272a"}`,
         }}
       >
         <span style={{ color: focused ? "#f59e0b" : "#a1a1aa", fontSize: 24, transition: "color 0.2s" }}>+</span>
@@ -144,28 +129,27 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         </span>
       </div>
 
-      {/* Search input - now seamlessly attached */}
+      {/* Search input */}
       <input
-          ref={inputRef}
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setTimeout(() => setFocused(false), 200)}
-          placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
-          style={{
-            width: "100%", 
-            background: isHighlighted ? "rgba(245,158,11,0.05)" : "transparent",
-            border: "none",
-            padding: "14px 16px", 
-            fontSize: 14,
-            color: "white",
-            fontFamily: "system-ui", 
-            outline: "none", 
-            boxSizing: "border-box",
-            caretColor: "#f59e0b",
-          }}
-        />
+        ref={inputRef}
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setTimeout(() => setFocused(false), 200)}
+        placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
+        style={{
+          marginTop: 10, width: "100%", background: "#121214",
+          border: `1px solid ${focused ? "#f59e0b" : "#3f3f46"}`,
+          borderRadius: 8,
+          padding: "14px 16px", fontSize: 15,
+          color: "white",
+          fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
+          lineHeight: 1.6,
+          transition: "border-color 0.2s ease",
+          caretColor: "#f59e0b",
+        }}
+      />
 
       {open && results.length > 0 && (
         <ul style={{
