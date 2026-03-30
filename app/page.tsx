@@ -197,7 +197,7 @@ export default function Home() {
               {t.title[1]}
             </span>
           </h1>
-          <p style={{ color: "#71717a", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
+          <p style={{ color: "#a1a1aa", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
             {t.subtitle.split("\n").map((line, i) => (
               <span key={i}>{line}{i === 0 && <br />}</span>
             ))}
@@ -251,7 +251,7 @@ export default function Home() {
             {streaming ? t.writing : t.submit}
           </button>
           {!canRoast && !streaming && (
-            <p style={{ textAlign: "center", fontSize: 14, color: "#2a2a2a", marginTop: 12, fontFamily: "system-ui" }}>
+            <p style={{ textAlign: "center", fontSize: 14, color: "#d4d4d8", marginTop: 12, fontFamily: "system-ui" }}>
               {t.hint}
             </p>
           )}

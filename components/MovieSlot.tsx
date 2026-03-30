@@ -98,7 +98,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
           >✕</button>
         </div>
         <p style={{ marginTop: 8, fontSize: 13, color: "#a1a1aa", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui" }}>{movie.title}</p>
-        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#71717a", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
+        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#a1a1aa", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
       </div>
     );
   }
@@ -120,8 +120,8 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
           transition: "border-color 0.2s ease, background 0.2s ease",
         }}
       >
-        <span style={{ color: focused ? "#f59e0b" : "#71717a", fontSize: 24, transition: "color 0.2s" }}>+</span>
-        <span style={{ color: focused ? "#a1a1aa" : "#71717a", fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s" }}>
+        <span style={{ color: focused ? "#f59e0b" : "#a1a1aa", fontSize: 24, transition: "color 0.2s" }}>+</span>
+        <span style={{ color: focused ? "#a1a1aa" : "#a1a1aa", fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s" }}>
           {focused ? "Type to search..." : `Film ${index + 1}`}
         </span>
       </div>
@@ -136,8 +136,8 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         onBlur={() => setTimeout(() => setFocused(false), 200)}
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
-          marginTop: 10, width: "100%", background: "#18181b",
-          border: `1px solid ${focused ? "#f59e0b" : "#52525b"}`,
+          marginTop: 10, width: "100%", background: "#121214",
+          border: `1px solid ${focused ? "#f59e0b" : "#3f3f46"}`,
           borderRadius: 8,
           padding: "14px 16px", fontSize: 15,
           color: "white",
