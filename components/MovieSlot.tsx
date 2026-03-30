@@ -29,8 +29,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   // ADDED: Guide the user to the first slot
-const isFirstEmpty = index === 0 && !movie;
-const isHighlighted = focused || (isFirstEmpty && query === "");
+  const isHighlighted = focused;
 
   useEffect(() => {
     if (!query.trim()) { setResults([]); setOpen(false); return; }

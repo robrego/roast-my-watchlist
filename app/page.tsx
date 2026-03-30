@@ -148,15 +148,15 @@ export default function Home() {
           }
         }
           .movie-slot {
-          position: relative;
-          width: clamp(130px, 18vw, 180px);
-          max-width: 100%;
-        }
-        @media (max-width: 768px) {
-         .movie-slot {
-        width: 100% !important;
-      }
-     }
+           position: relative;
+           width: clamp(130px, 18vw, 180px);
+          }
+          @media (max-width: 768px) {
+          .movie-slot {
+           width: 100% !important;
+           max-width: calc(50vw - 22px); /* half grid minus gap */
+  }
+}
       `}</style>
 
       {/* Language toggle */}
