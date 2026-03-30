@@ -68,7 +68,7 @@ const isHighlighted = focused || (isFirstEmpty && query === "");
               style={{ width: "100%", aspectRatio: "2/3", objectFit: "cover", display: "block", transition: "transform 0.3s ease", transform: hovered ? "scale(1.05)" : "scale(1)" }}
             />
           ) : (
-            <div style={{ width: "100%", aspectRatio: "2/3", display: "flex", alignItems: "center", justifyContent: "center", background: "#27272a", color: "#a1a1aa", fontSize: 13, textAlign: "center", padding: 8 }}>
+            <div style={{ width: "100%", aspectRatio: "2/3", display: "flex", alignItems: "center", justifyContent: "center", background: "#27272a", color: "#a1a1aa", fontSize: 14, textAlign: "center", padding: 8 }}>
               {movie.title}
             </div>
           )}
@@ -143,7 +143,7 @@ const isHighlighted = focused || (isFirstEmpty && query === "");
           marginTop: 10, width: "100%", background: "#121214",
           border: `1px solid ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
           borderRadius: 8,
-          padding: "14px 16px", fontSize: 15,
+          padding: "14px 16px", fontSize: 16,
           color: "white",
           fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
           lineHeight: 1.6,
