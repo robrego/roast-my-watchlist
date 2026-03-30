@@ -263,19 +263,16 @@ export default function Home() {
           </p>
         )}
 
-        <RoastReceipt text={roastText} streaming={streaming} lang={lang} criticName={CRITIC_NAMES[intensity]} />
+<RoastReceipt
+  text={roastText}
+  streaming={streaming}
+  lang={lang}
+  criticName={CRITIC_NAMES[intensity]}
+  onRestart={() => { setRoastText(""); setSuggestions(""); setMovies(Array(3).fill(null)); setDimmed(false); }}
+/>
         <SuggestionCard text={suggestions} lang={lang} />
-
-        {roastText && !streaming && (
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <button
-              onClick={() => { setRoastText(""); setSuggestions(""); setMovies(Array(3).fill(null)); setDimmed(false); }}
-              style={{ background: "none", border: "none", color: "#3f3f46", cursor: "pointer", fontSize: 14, textDecoration: "underline", fontFamily: "system-ui" }}
-            >
-              {t.restart}
-            </button>
-          </div>
-        )}
+          
+        
       </div>
     </main>
   );
