@@ -26,19 +26,15 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [everFocused, setEverFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // SMART HIGHLIGHT LOGIC
-  const isFirstEmpty = index === 0 && !movie;
-  const isHighlighted = focused || (isFirstEmpty && query === "");
+  // Slot 0 glows on load until the user interacts with anything
+  const isHighlighted = focused || (index === 0 && !movie && !everFocused);
 
   useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      setOpen(false);
-      return;
-    }
+    if (!query.trim()) { setResults([]); setOpen(false); return; }
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       setLoading(true);
@@ -58,131 +54,117 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
     onSelect(full);
   }
 
+  if (movie) {
+    return (
+      <div
+        className="movie-slot"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <div style={{
+          position: "relative", overflow: "hidden", borderRadius: 10,
+          border: "1px solid rgba(255,255,255,0.08)", background: "#18181b",
+        }}>
+          {movie.poster_path ? (
+            <img
+              src={getPosterUrl(movie.poster_path)}
+              alt={movie.title}
+              style={{
+                width: "100%", aspectRatio: "2/3", objectFit: "cover",
+                display: "block", transition: "transform 0.3s ease",
+                transform: hovered ? "scale(1.05)" : "scale(1)",
+              }}
+            />
+          ) : (
+            <div style={{
+              width: "100%", aspectRatio: "2/3", display: "flex",
+              alignItems: "center", justifyContent: "center",
+              background: "#27272a", color: "#a1a1aa", fontSize: 14,
+              textAlign: "center", padding: 8,
+            }}>
+              {movie.title}
+            </div>
+          )}
+
+          {/* Hover overlay */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.25s ease",
+            display: "flex", flexDirection: "column",
+            justifyContent: "flex-end",
+            padding: "12px 10px",
+          }}>
+            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "white", fontFamily: "system-ui", lineHeight: 1.3 }}>{movie.title}</p>
+            <p style={{ margin: "3px 0 0", fontSize: 11, color: "#f59e0b", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
+          </div>
+
+          <button
+            onClick={onRemove}
+            style={{
+              position: "absolute", top: 6, right: 6,
+              width: 32, height: 32, borderRadius: "50%",
+              background: "rgba(0,0,0,0.85)", color: "white",
+              border: "1px solid rgba(255,255,255,0.2)",
+              cursor: "pointer", fontSize: 14, fontWeight: "bold",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              zIndex: 10,
+            }}
+          >✕</button>
+        </div>
+        <p style={{ marginTop: 8, fontSize: 13, color: "#a1a1aa", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui" }}>{movie.title}</p>
+        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#71717a", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="movie-slot" style={{ position: "relative" }}>
-      {movie ? (
-        /* --- FULLY RESTORED: MOVIE SELECTED STATE --- */
-        <div
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <div style={{ 
-            position: "relative", 
-            overflow: "hidden", 
-            borderRadius: 10, 
-            border: "1px solid rgba(255,255,255,0.08)", 
-            background: "#18181b" 
-          }}>
-            {movie.poster_path ? (
-              <img
-                src={getPosterUrl(movie.poster_path)}
-                alt={movie.title}
-                style={{ 
-                  width: "100%", 
-                  aspectRatio: "2/3", 
-                  objectFit: "cover", 
-                  display: "block", 
-                  transition: "transform 0.3s ease", 
-                  transform: hovered ? "scale(1.05)" : "scale(1)" 
-                }}
-              />
-            ) : (
-              <div style={{ 
-                width: "100%", 
-                aspectRatio: "2/3", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center", 
-                background: "#27272a", 
-                color: "#a1a1aa", 
-                fontSize: 14, 
-                textAlign: "center", 
-                padding: 8 
-              }}>
-                {movie.title}
-              </div>
-            )}
 
-            {/* RESTORED: Hover overlay with Title/Year */}
-            <div style={{
-              position: "absolute", inset: 0,
-              background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)",
-              opacity: hovered ? 1 : 0,
-              transition: "opacity 0.25s ease",
-              display: "flex", flexDirection: "column",
-              justifyContent: "flex-end",
-              padding: "12px 10px",
-              pointerEvents: "none"
-            }}>
-              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: "white", fontFamily: "system-ui", lineHeight: 1.3 }}>{movie.title}</p>
-              <p style={{ margin: "3px 0 0", fontSize: 11, color: "#f59e0b", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
-            </div>
+      {/* Tappable tile */}
+      <div
+        onClick={() => inputRef.current?.focus()}
+        style={{
+          width: "100%", aspectRatio: "2/3",
+          borderRadius: 10,
+          border: `1px dashed ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
+          background: isHighlighted ? "rgba(245,158,11,0.04)" : "rgba(24,24,27,0.3)",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center", gap: 8,
+          cursor: "text",
+          transition: "border-color 0.2s ease, background 0.2s ease",
+          boxShadow: isHighlighted ? "0 0 20px rgba(245,158,11,0.08)" : "none",
+        }}
+      >
+        <span style={{ color: isHighlighted ? "#f59e0b" : "#71717a", fontSize: 24, transition: "color 0.2s" }}>+</span>
+        <span style={{ color: isHighlighted ? "#a1a1aa" : "#71717a", fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s" }}>
+          {focused ? "Type to search..." : `Film ${index + 1}`}
+        </span>
+      </div>
 
-            <button
-              onClick={onRemove}
-              style={{
-                position: "absolute", top: 6, right: 6,
-                width: 32, height: 32, borderRadius: "50%",
-                background: "rgba(0,0,0,0.85)", color: "white",
-                border: "1px solid rgba(255,255,255,0.2)",
-                cursor: "pointer", fontSize: 14, fontWeight: "bold",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                zIndex: 10,
-              }}
-            >✕</button>
-          </div>
-          
-          {/* RESTORED: Labels under the poster */}
-          <p style={{ marginTop: 8, fontSize: 13, color: "#a1a1aa", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui" }}>{movie.title}</p>
-          <p style={{ margin: "2px 0 0", fontSize: 12, color: "#a1a1aa", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
-        </div>
-      ) : (
-        /* --- FULLY RESTORED: EMPTY SLOT STATE --- */
-        <>
-          <div
-            onClick={() => inputRef.current?.focus()}
-            style={{
-              width: "100%", aspectRatio: "2/3",
-              borderRadius: 10,
-              border: `1px dashed ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
-              background: isHighlighted ? "rgba(245,158,11,0.04)" : "rgba(24,24,27,0.3)",
-              display: "flex", flexDirection: "column",
-              alignItems: "center", justifyContent: "center", gap: 8,
-              cursor: "text",
-              transition: "border-color 0.2s ease, background 0.2s ease",
-              boxShadow: isHighlighted ? "0 0 15px rgba(245, 158, 11, 0.1)" : "none",
-            }}
-          >
-            <span style={{ color: focused ? "#f59e0b" : "#a1a1aa", fontSize: 24, transition: "color 0.2s" }}>+</span>
-            <span style={{ color: "#a1a1aa", fontSize: 12, fontFamily: "system-ui" }}>
-              {focused ? "Type to search..." : `Film ${index + 1}`}
-            </span>
-          </div>
+      {/* Search input */}
+      <input
+        ref={inputRef}
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => { setFocused(true); setEverFocused(true); }}
+        onBlur={() => setTimeout(() => setFocused(false), 200)}
+        placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
+        style={{
+          marginTop: 10, width: "100%", background: "#121214",
+          border: `1px solid ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
+          borderRadius: 8,
+          padding: "14px 16px", fontSize: 16,
+          color: "white",
+          fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
+          lineHeight: 1.6,
+          transition: "border-color 0.2s ease",
+          caretColor: "#f59e0b",
+        }}
+      />
 
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setTimeout(() => setFocused(false), 200)}
-            placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
-            style={{
-              marginTop: 10, width: "100%", background: "#121214",
-              border: `1px solid ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
-              borderRadius: 8,
-              padding: "14px 16px", fontSize: 16,
-              color: "white",
-              fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
-              lineHeight: 1.6,
-              transition: "border-color 0.2s ease",
-              caretColor: "#f59e0b",
-            }}
-          />
-        </>
-      )}
-
-      {/* RESTORED: Results Dropdown */}
       {open && results.length > 0 && (
         <ul style={{
           position: "absolute", top: "100%", marginTop: 4, left: 0,
@@ -211,7 +193,6 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         </ul>
       )}
 
-      {/* RESTORED: Loading State */}
       {loading && (
         <p style={{ position: "absolute", top: "100%", marginTop: 4, fontSize: 12, color: "#a1a1aa", fontFamily: "system-ui" }}>
           Searching...
