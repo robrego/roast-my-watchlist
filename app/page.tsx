@@ -109,7 +109,7 @@ export default function Home() {
       background: "radial-gradient(ellipse at 50% 0%, #1a0f00 0%, #050505 60%)",
       color: "white",
       fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif",
-      padding: "80px clamp(16px, 4vw, 48px) 80px",
+      padding: "60px clamp(16px, 4vw, 48px) 80px",
       transition: "filter 0.6s ease",
       filter: dimmed ? "brightness(0.3)" : "brightness(1)",
     }}>
@@ -181,8 +181,8 @@ export default function Home() {
 
         {/* Header */}
         <div style={{
-          textAlign: "center", marginBottom: 64,
-          paddingBottom: 48, borderBottom: "1px solid #1c1c1c",
+          textAlign: "center", marginBottom: 48,
+          paddingBottom: 40, borderBottom: "1px solid #1c1c1c",
           transition: "opacity 0.6s ease",
           opacity: dimmed ? 0.1 : 1,
         }}>
