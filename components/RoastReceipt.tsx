@@ -103,9 +103,9 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName,
           width: 100%;
           padding: 20px;
           border-radius: 12px;
-          border: 1px solid #27272a;
-          background: transparent;
-          color: #a1a1aa;
+          border: 1px solid #b45309;
+          background: rgba(180, 83, 9, 0.05);
+          color: #f59e0b;
           font-family: system-ui;
           font-size: 15px;
           font-weight: 600;
@@ -188,7 +188,7 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName,
 
             {/* Header */}
             <div className="receipt-header" style={{ textAlign: "center", marginBottom: 32, paddingBottom: 20, borderBottom: "1px dashed #2a2a2a" }}>
-              <p style={{ fontSize: 12, letterSpacing: "0.3em", color: "#71717a", fontFamily: "system-ui", textTransform: "uppercase", margin: 0 }}>
+              <p style={{ fontSize: 12, letterSpacing: "0.3em", color: "#a1a1aa", fontFamily: "system-ui", textTransform: "uppercase", margin: 0 }}>
                 {lang === "it" ? "La Camera Oscura del Critico" : "The Critic's Darkroom"}
               </p>
               <p style={{ fontSize: 12, color: "#3f3f46", fontFamily: "system-ui", margin: "6px 0 0" }}>
@@ -221,7 +221,7 @@ export default function RoastReceipt({ text, streaming, lang = "en", criticName,
                   fontFamily: "'Playfair Display', Georgia, serif",
                   fontSize: "clamp(14px, 1.5vw, 16px)",
                   fontStyle: "italic",
-                  color: "#71717a",
+                  color: "#a1a1aa",
                   whiteSpace: "pre-wrap",
                   margin: 0,
                   lineHeight: 1.9,

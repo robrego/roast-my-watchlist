@@ -28,9 +28,9 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  // ADDED: Logic to highlight the very first empty slot on load
-  const isFirstEmpty = index === 0 && !movie;
-  const isHighlighted = focused || (isFirstEmpty && query === "");
+  // ADDED: Guide the user to the first slot
+const isFirstEmpty = index === 0 && !movie;
+const isHighlighted = focused || (isFirstEmpty && query === "");
 
   useEffect(() => {
     if (!query.trim()) { setResults([]); setOpen(false); return; }
@@ -115,12 +115,13 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         style={{
           width: "100%", aspectRatio: "2/3",
           borderRadius: 10,
-          border: `1px dashed ${focused ? "#f59e0b" : "#52525b"}`,
+          border: `1px dashed ${focused ? "#f59e0b" : "#3f3f46"}`,
           background: focused ? "rgba(245,158,11,0.04)" : "rgba(24,24,27,0.3)",
           display: "flex", flexDirection: "column",
           alignItems: "center", justifyContent: "center", gap: 8,
           cursor: "text",
           transition: "border-color 0.2s ease, background 0.2s ease",
+          boxShadow: isHighlighted ? "0 0 15px rgba(245, 158, 11, 0.1)" : "none",
         }}
       >
         <span style={{ color: focused ? "#f59e0b" : "#a1a1aa", fontSize: 24, transition: "color 0.2s" }}>+</span>
@@ -140,7 +141,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
           marginTop: 10, width: "100%", background: "#121214",
-          border: `1px solid ${focused ? "#f59e0b" : "#3f3f46"}`,
+          border: `1px solid ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
           borderRadius: 8,
           padding: "14px 16px", fontSize: 15,
           color: "white",
