@@ -26,12 +26,24 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
-  const [everFocused, setEverFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Slot 0 glows on load until the user interacts with anything
-  const isHighlighted = focused || (index === 0 && !movie && !everFocused);
+  // Slot 0 is subtly brighter when empty and unfocused — just a slightly lighter border
+  const isSlotZeroIdle = index === 0 && !movie && !focused;
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (!query.trim()) { setResults([]); setOpen(false); return; }
@@ -48,6 +60,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
 
   async function handleSelect(m: Movie) {
     setOpen(false);
+    setFocused(false);
     setQuery("");
     const res = await fetch(`/api/tmdb?id=${m.id}`);
     const full = await res.json();
@@ -120,7 +133,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
   }
 
   return (
-    <div className="movie-slot" style={{ position: "relative" }}>
+    <div ref={containerRef} className="movie-slot" style={{ position: "relative" }}>
 
       {/* Tappable tile */}
       <div
@@ -128,17 +141,22 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         style={{
           width: "100%", aspectRatio: "2/3",
           borderRadius: 10,
-          border: `1px dashed ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
-          background: isHighlighted ? "rgba(245,158,11,0.04)" : "rgba(24,24,27,0.3)",
+          border: `1px dashed ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#2a2a2a"}`,
+          background: focused ? "rgba(245,158,11,0.04)" : isSlotZeroIdle ? "rgba(24,24,27,0.5)" : "rgba(24,24,27,0.3)",
           display: "flex", flexDirection: "column",
           alignItems: "center", justifyContent: "center", gap: 8,
           cursor: "text",
           transition: "border-color 0.2s ease, background 0.2s ease",
-          boxShadow: isHighlighted ? "0 0 20px rgba(245,158,11,0.08)" : "none",
         }}
       >
-        <span style={{ color: isHighlighted ? "#f59e0b" : "#71717a", fontSize: 24, transition: "color 0.2s" }}>+</span>
-        <span style={{ color: isHighlighted ? "#a1a1aa" : "#71717a", fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s" }}>
+        <span style={{
+          color: focused ? "#f59e0b" : isSlotZeroIdle ? "#a1a1aa" : "#3f3f46",
+          fontSize: 24, transition: "color 0.2s",
+        }}>+</span>
+        <span style={{
+          color: focused ? "#a1a1aa" : isSlotZeroIdle ? "#71717a" : "#3f3f46",
+          fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s",
+        }}>
           {focused ? "Type to search..." : `Film ${index + 1}`}
         </span>
       </div>
@@ -149,12 +167,20 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => { setFocused(true); setEverFocused(true); }}
-        onBlur={() => setTimeout(() => setFocused(false), 200)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => {
+          // Small delay so click on dropdown item registers first
+          setTimeout(() => {
+            if (!containerRef.current?.contains(document.activeElement)) {
+              setFocused(false);
+              setOpen(false);
+            }
+          }, 150);
+        }}
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
           marginTop: 10, width: "100%", background: "#121214",
-          border: `1px solid ${isHighlighted ? "#f59e0b" : "#3f3f46"}`,
+          border: `1px solid ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#2a2a2a"}`,
           borderRadius: 8,
           padding: "14px 16px", fontSize: 16,
           color: "white",
@@ -176,7 +202,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
           {results.map((r) => (
             <li
               key={r.id}
-              onClick={() => handleSelect(r)}
+              onMouseDown={() => handleSelect(r)}
               style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", cursor: "pointer", borderBottom: "1px solid #27272a" }}
               onMouseEnter={e => (e.currentTarget.style.background = "#27272a")}
               onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
