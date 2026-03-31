@@ -154,7 +154,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
           fontSize: 24, transition: "color 0.2s",
         }}>+</span>
         <span style={{
-          color: focused ? "#D6D6E0" : isSlotZeroIdle ? "#D6D6E0" : "#71717a",
+          color: focused ? "#D6D6E0" : isSlotZeroIdle ? "#D6D6E0" : "#D6D6E0",
           fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s",
         }}>
           {focused ? "Type to search..." : `Film ${index + 1}`}
