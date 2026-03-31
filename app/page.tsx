@@ -180,7 +180,6 @@ export default function Home() {
         {/* Header */}
         <div style={{
           textAlign: "center", marginBottom: 48,
-          paddingBottom: 40, borderBottom: "1px solid #1c1c1c",
           transition: "opacity 0.6s ease",
           opacity: dimmed ? 0.1 : 1,
         }}>
@@ -193,7 +192,7 @@ export default function Home() {
               {t.title[1]}
             </span>
           </h1>
-          <p style={{ color: "#a1a1aa", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
+          <p style={{ color: "#D6D6E0", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
             {t.subtitle.split("\n").map((line, i) => (
               <span key={i}>{line}{i === 0 && <br />}</span>
             ))}
