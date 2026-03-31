@@ -92,7 +92,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
             <div style={{
               width: "100%", aspectRatio: "2/3", display: "flex",
               alignItems: "center", justifyContent: "center",
-              background: "#27272a", color: "#a1a1aa", fontSize: 14,
+              background: "#27272a", color: "#D6D6E0", fontSize: 14,
               textAlign: "center", padding: 8,
             }}>
               {movie.title}
@@ -126,8 +126,8 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
             }}
           >✕</button>
         </div>
-        <p style={{ marginTop: 8, fontSize: 13, color: "#a1a1aa", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui" }}>{movie.title}</p>
-        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#71717a", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
+        <p style={{ marginTop: 8, fontSize: 13, color: "#D6D6E0", textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontFamily: "system-ui" }}>{movie.title}</p>
+        <p style={{ margin: "2px 0 0", fontSize: 12, color: "#D6D6E0", textAlign: "center", fontFamily: "system-ui" }}>{movie.release_date?.split("-")[0]}</p>
       </div>
     );
   }
@@ -141,8 +141,8 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         style={{
           width: "100%", aspectRatio: "2/3",
           borderRadius: 10,
-          border: `1px dashed ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#2a2a2a"}`,
-          background: focused ? "rgba(245,158,11,0.04)" : isSlotZeroIdle ? "rgba(24,24,27,0.5)" : "rgba(24,24,27,0.3)",
+          border: `1px dashed ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#3f3f46"}`,
+          background: focused ? "rgba(245,158,11,0.04)" : isSlotZeroIdle ? "rgba(24,24,27,0.5)" : "rgba(39,39,42,0.4)",
           display: "flex", flexDirection: "column",
           alignItems: "center", justifyContent: "center", gap: 8,
           cursor: "text",
@@ -150,11 +150,11 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         }}
       >
         <span style={{
-          color: focused ? "#f59e0b" : isSlotZeroIdle ? "#a1a1aa" : "#3f3f46",
+          color: focused ? "#f59e0b" : isSlotZeroIdle ? "#D6D6E0" : "#3f3f46",
           fontSize: 24, transition: "color 0.2s",
         }}>+</span>
         <span style={{
-          color: focused ? "#a1a1aa" : isSlotZeroIdle ? "#71717a" : "#3f3f46",
+          color: focused ? "#D6D6E0" : isSlotZeroIdle ? "#D6D6E0" : "#71717a",
           fontSize: 12, fontFamily: "system-ui", transition: "color 0.2s",
         }}>
           {focused ? "Type to search..." : `Film ${index + 1}`}
@@ -164,11 +164,13 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
       {/* Search input */}
       <input
         ref={inputRef}
+        className="placeholder:text-zinc-400"
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setFocused(true)}
         onBlur={() => {
+          
           // Small delay so click on dropdown item registers first
           setTimeout(() => {
             if (!containerRef.current?.contains(document.activeElement)) {
@@ -180,10 +182,10 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
           marginTop: 10, width: "100%", background: "#121214",
-          border: `1px solid ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#2a2a2a"}`,
+          border: `1px solid ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#3f3f46"}`,
           borderRadius: 8,
           padding: "14px 16px", fontSize: 16,
-          color: "white",
+          color: "#D6D6E0",
           fontFamily: "system-ui", outline: "none", boxSizing: "border-box",
           lineHeight: 1.6,
           transition: "border-color 0.2s ease",
@@ -212,7 +214,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
               )}
               <div>
                 <p style={{ margin: 0, fontSize: 14, color: "white", fontWeight: 500, fontFamily: "system-ui" }}>{r.title}</p>
-                <p style={{ margin: 0, fontSize: 12, color: "#a1a1aa", fontFamily: "system-ui" }}>{r.release_date?.split("-")[0]}</p>
+                <p style={{ margin: 0, fontSize: 12, color: "#D6D6E0", fontFamily: "system-ui" }}>{r.release_date?.split("-")[0]}</p>
               </div>
             </li>
           ))}
@@ -220,7 +222,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
       )}
 
       {loading && (
-        <p style={{ position: "absolute", top: "100%", marginTop: 4, fontSize: 12, color: "#a1a1aa", fontFamily: "system-ui" }}>
+        <p style={{ position: "absolute", top: "100%", marginTop: 4, fontSize: 12, color: "#D6D6E0", fontFamily: "system-ui" }}>
           Searching...
         </p>
       )}

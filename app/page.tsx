@@ -29,7 +29,6 @@ export default function Home() {
   const [btnHovered, setBtnHovered] = useState(false);
 
   const t = lang === "it" ? {
-    service: "Un Servizio Culturale",
     title: ["La Camera Oscura", "del Critico"],
     subtitle: "Invia la tua watchlist. Ricevi il verdetto.\nNessun sentimento verrà risparmiato.",
     watchlist: "La Tua Watchlist",
@@ -39,7 +38,6 @@ export default function Home() {
     restart: "Ricomincia",
     error: "Qualcosa è andato storto. Il critico si è rifiutato di commentare.",
   } : {
-    service: "A Cultural Service",
     title: ["The Critic's", "Darkroom"],
     subtitle: "Submit your watchlist. Receive your verdict.\nNo feelings will be spared.",
     watchlist: "Your Watchlist",
@@ -109,7 +107,7 @@ export default function Home() {
       background: "radial-gradient(ellipse at 50% 0%, #1a0f00 0%, #050505 60%)",
       color: "white",
       fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif",
-      padding: "60px clamp(16px, 4vw, 48px) 80px",
+      padding: "80px clamp(16px, 4vw, 48px) 80px",
       transition: "filter 0.6s ease",
       filter: dimmed ? "brightness(0.3)" : "brightness(1)",
     }}>
@@ -186,9 +184,7 @@ export default function Home() {
           transition: "opacity 0.6s ease",
           opacity: dimmed ? 0.1 : 1,
         }}>
-          <p style={{ fontSize: 12, letterSpacing: "0.35em", color: "#b45309", textTransform: "uppercase", fontFamily: "system-ui", margin: "0 0 20px" }}>
-            {t.service}
-          </p>
+          
           <h1 style={{ margin: 0, lineHeight: 1.05 }}>
             <span style={{ display: "block", fontSize: "clamp(44px, 7vw, 96px)", fontWeight: "bold", color: "white" }}>
               {t.title[0]}
@@ -207,7 +203,7 @@ export default function Home() {
 
         {/* Movie Slots */}
         <div style={{ marginBottom: 48, transition: "opacity 0.6s ease", opacity: dimmed ? 0.1 : 1 }}>
-          <p style={{ fontSize: 12, letterSpacing: "0.25em", color: "#52525b", marginBottom: 24, textTransform: "uppercase", fontFamily: "system-ui", marginTop: 0 }}>
+          <p style={{ fontSize: 14, letterSpacing: "0.25em", color: "#b45309", marginBottom: 24, textTransform: "uppercase", fontFamily: "system-ui", marginTop: 0 }}>
             {t.watchlist} ({selectedMovies.length}/{movies.length})
           </p>
           <div className="movie-grid">
