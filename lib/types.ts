@@ -8,6 +8,7 @@ export interface Movie {
   director?: string;
   tagline?: string;
   overview?: string;
+  media_type?: "movie" | "tv";
 }
 
 export type Intensity = "mild" | "spicy" | "brutal";

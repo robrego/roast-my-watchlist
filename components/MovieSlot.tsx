@@ -62,7 +62,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
     setOpen(false);
     setFocused(false);
     setQuery("");
-    const res = await fetch(`/api/tmdb?id=${m.id}`);
+    const res = await fetch(`/api/tmdb?id=${m.id}&type=${m.media_type ?? "movie"}`);
     const full = await res.json();
     onSelect(full);
   }
