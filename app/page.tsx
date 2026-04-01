@@ -107,7 +107,7 @@ export default function Home() {
       background: "radial-gradient(ellipse at 50% 0%, #1a0f00 0%, #050505 60%)",
       color: "white",
       fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif",
-      padding: "80px clamp(16px, 4vw, 48px) 80px",
+      padding: "100px clamp(16px, 4vw, 48px) 80px",
       transition: "filter 0.6s ease",
       filter: dimmed ? "brightness(0.3)" : "brightness(1)",
     }}>
@@ -192,12 +192,12 @@ export default function Home() {
               {t.title[1]}
             </span>
           </h1>
-          <p style={{ color: "#D6D6E0", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 22px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
+          <p style={{ color: "#D6D6E0", fontFamily: "system-ui", fontSize: "clamp(14px, 1.8vw, 18px)", maxWidth: 480, margin: "24px auto 0", lineHeight: 1.9 }}>
             {t.subtitle.split("\n").map((line, i) => (
               <span key={i}>{line}{i === 0 && <br />}</span>
             ))}
           </p>
-          <div style={{ width: 64, height: 1, background: "#b45309", opacity: 0.3, margin: "36px auto 0" }} />
+          
         </div>
 
         {/* Movie Slots */}
