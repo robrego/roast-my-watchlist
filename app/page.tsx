@@ -107,7 +107,7 @@ export default function Home() {
       background: "radial-gradient(ellipse at 50% 0%, #1a0f00 0%, #050505 60%)",
       color: "white",
       fontFamily: "'Playfair Display', 'Palatino Linotype', Georgia, serif",
-      padding: "100px clamp(16px, 4vw, 48px) 80px",
+      padding: "140px clamp(16px, 4vw, 48px) 80px",
       transition: "filter 0.6s ease",
       filter: dimmed ? "brightness(0.3)" : "brightness(1)",
     }}>

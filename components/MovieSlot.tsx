@@ -141,7 +141,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         style={{
           width: "100%", aspectRatio: "2/3",
           borderRadius: 10,
-          border: `1px dashed ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#3f3f46"}`,
+          border: `1px dashed ${focused ? "#f59e0b" : isSlotZeroIdle ? "#898998" : "#3f3f46"}`,
           background: focused ? "rgba(245,158,11,0.04)" : isSlotZeroIdle ? "rgba(24,24,27,0.5)" : "rgba(39,39,42,0.4)",
           display: "flex", flexDirection: "column",
           alignItems: "center", justifyContent: "center", gap: 8,
@@ -182,7 +182,7 @@ export default function MovieSlot({ index, movie, onSelect, onRemove }: Props) {
         placeholder={PLACEHOLDERS[index % PLACEHOLDERS.length]}
         style={{
           marginTop: 10, width: "100%", background: "#121214",
-          border: `1px solid ${focused ? "#f59e0b" : isSlotZeroIdle ? "#52525b" : "#3f3f46"}`,
+          border: `1px solid ${focused ? "#f59e0b" : isSlotZeroIdle ? "#898998" : "#3f3f46"}`,
           borderRadius: 8,
           padding: "14px 16px", fontSize: 16,
           color: "#D6D6E0",
